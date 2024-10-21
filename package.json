@@ -13,9 +13,9 @@
     "nodemon": "^3.1.7"
   },
   "scripts": {
-    "build": "babel . --out-dir dist --copy-files --extensions '.js,.jsx' --ignore 'node_modules'",
-    "start:dev": "rm -rf dist && npm run build && nodemon dist/app.js",
-    "start": "npm run build && node dist/app.js"
+    "build": "babel . --out-dir dist --copy-files --extensions '.js,.jsx'",
+    "start:dev": "nodemon --exec babel-node app.js",
+    "start": "node dist/app.js"
   },
   "dependencies": {
     "@react-pdf/renderer": "^2.1.1",
