@@ -1,5 +1,7 @@
+import React from "react";
 import express from "express";
-import { pdf } from "@react-pdf/renderer";
+import { renderToStream } from "@react-pdf/renderer";
+
 import { TEMPLATES } from "./src/templates/constants";
 
 const app = express();
@@ -10,12 +12,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post("/generate", async (req, res) => {
-  const { template } = req.body;
+  const { template, props } = req.body;
   const PDFDocument = TEMPLATES[template];
 
   if (!PDFDocument) res.status(404).send("Template not found");
 
-  const pdfStream = await pdf(PDFDocument).toBuffer();
+  const pdfStream = await renderToStream(<PDFDocument {...props} />);
 
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", "attachment; filename=generated.pdf");
